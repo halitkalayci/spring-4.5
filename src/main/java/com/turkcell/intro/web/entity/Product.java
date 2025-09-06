@@ -19,6 +19,17 @@ public class Product
     private float stock;
     @Column(name="description")
     private String description;
+    @ManyToOne() // FK hangi tabloda ise. Ona ManyToOne diğerine OneToMany
+    @JoinColumn(name="category_id", nullable = false)
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public String getDescription() {
         return description;
@@ -60,3 +71,9 @@ public class Product
         this.stock = stock;
     }
 }
+
+// Many to Many
+// One To One
+
+// Önceki ödevde geliştirdiğiniz kütüphane ER diagramı
+// code first yapı ile kurunuz.

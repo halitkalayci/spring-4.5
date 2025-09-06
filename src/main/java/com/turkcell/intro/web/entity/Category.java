@@ -2,6 +2,8 @@ package com.turkcell.intro.web.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="categories")
 public class Category
@@ -11,6 +13,16 @@ public class Category
     private int id;
     private String name;
 
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 
     public int getId() {
         return id;
