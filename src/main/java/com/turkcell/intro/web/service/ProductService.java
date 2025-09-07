@@ -2,6 +2,7 @@ package com.turkcell.intro.web.service;
 
 import com.turkcell.intro.web.dto.product.request.CreateProductRequest;
 import com.turkcell.intro.web.dto.product.response.CreatedProductResponse;
+import com.turkcell.intro.web.dto.product.response.GetByIdProductResponse;
 import com.turkcell.intro.web.entity.Category;
 import com.turkcell.intro.web.entity.Product;
 import com.turkcell.intro.web.repository.CategoryRepository;
@@ -44,5 +45,18 @@ public class ProductService
                 product.getDescription(),
                 product.getUnitPrice(),
                 category.getName());
+    }
+
+    public GetByIdProductResponse getById(int id)
+    {
+        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("Bu id ile bir ürün bulunamadı."));
+
+        return new GetByIdProductResponse(product.getId(),
+                product.getName(),
+                product.getStock(),
+                product.getDescription(),
+                product.getUnitPrice(),
+                product.getCategory().getId(),
+                product.getCategory().getName());
     }
 }
