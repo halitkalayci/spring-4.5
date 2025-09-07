@@ -1,5 +1,7 @@
 package com.turkcell.intro.web.dto.product;
 
+// Seçeceğiniz 2 entity için dto-service-controller
+// yapısını koruyarak add ve getall methodlarını tasarlamak.
 public class ProductForAddDto
 {
     private String name;
@@ -7,6 +9,17 @@ public class ProductForAddDto
     private float stock;
     private float unitPrice;
     private int categoryId;
+
+    public ProductForAddDto() {
+    }
+
+    public ProductForAddDto(String name, String description, float stock, float unitPrice, int categoryId) {
+        this.name = name;
+        this.description = description;
+        this.stock = stock;
+        this.unitPrice = unitPrice;
+        this.categoryId = categoryId;
+    }
 
     public String getName() {
         return name;
