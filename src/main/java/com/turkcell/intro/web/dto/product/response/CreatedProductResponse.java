@@ -8,16 +8,26 @@ public class CreatedProductResponse
     private float stock;
     private String description;
     private float unitPrice;
+    private String categoryName;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 
     public CreatedProductResponse() {
     }
 
-    public CreatedProductResponse(int id, String name, float stock, String description, float unitPrice) {
+    public CreatedProductResponse(int id, String name, float stock, String description, float unitPrice, String categoryName) {
         this.id = id;
         this.name = name;
         this.stock = stock;
         this.description = description;
         this.unitPrice = unitPrice;
+        this.categoryName = categoryName;
     }
 
     public int getId() {
