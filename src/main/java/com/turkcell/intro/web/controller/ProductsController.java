@@ -1,6 +1,7 @@
 package com.turkcell.intro.web.controller;
 
 import com.turkcell.intro.web.entity.Product;
+import com.turkcell.intro.web.repository.ProductRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,12 +13,16 @@ import java.util.Random;
 @RequestMapping("/api/v1/products") // localhost:port/api/v1/products ile başlıyorsa istek buraya gelsin.
 public class ProductsController
 {
-    // Ram'de tutulur.
-    private List<Product> products = new ArrayList<Product>();
+    // Dependency Injection
+    private ProductRepository productRepository;
+
+    public ProductsController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @GetMapping()
     public List<Product> getAll() {
-        return products;
+        return productRepository.findAll();
     }
 
     // Ekleme endpointleri ekleme sonrası durum için eklenen entity'i geri döner.
@@ -25,11 +30,7 @@ public class ProductsController
     @ResponseStatus(HttpStatus.CREATED) // eğer işlem başarılı olursa, status code olarak şunu dön.
     public Product add(@RequestBody Product product)
     {
-        // ekleme.
-        Random randon = new Random();
-        product.setId(randon.nextInt(1000));
-
-        products.add(product);
+        productRepository.save(product);
         return product;
     }
 }
