@@ -1,5 +1,6 @@
 package com.turkcell.intro.web.controller;
 
+import com.turkcell.intro.web.dto.product.ProductForAddDto;
 import com.turkcell.intro.web.entity.Product;
 import com.turkcell.intro.web.repository.ProductRepository;
 import com.turkcell.intro.web.service.ProductService;
@@ -28,8 +29,8 @@ public class ProductsController
     // Ekleme endpointleri ekleme sonrası durum için eklenen entity'i geri döner.
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED) // eğer işlem başarılı olursa, status code olarak şunu dön.
-    public Product add(@RequestBody Product product)
+    public Product add(@RequestBody ProductForAddDto productDto)
     {
-        return productService.add(product);
+        return productService.add(productDto);
     }
 }
