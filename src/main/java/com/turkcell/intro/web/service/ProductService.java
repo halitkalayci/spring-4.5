@@ -66,7 +66,7 @@ public class ProductService
 
     public List<SearchProductResponse> search(SearchProductRequest request)
     {
-        List<Product> productList = productRepository.findByNameLike("%"+request.getName()+"%");
+        List<Product> productList = productRepository.search("%"+request.getName()+"%");
 
         List<SearchProductResponse> responseList = new ArrayList<>();
 
