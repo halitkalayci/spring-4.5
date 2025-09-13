@@ -20,4 +20,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>
     // native query true: SAF SQL
     @Query(value="Select p from Product p Where LOWER(p.name) LIKE LOWER(:name)", nativeQuery = false) // NativeQuery  -> SAF SQL - JPA+SQL JPQL
     List<Product> search(String name); // Derived Query DEĞİL!
+
+    @Query(value="Select * from products where LOWER(name) LIKE LOWER(:name)", nativeQuery = true) // NativeQuery  -> SAF SQL - JPA+SQL JPQL
+    List<Product> searchSql(String name); // Derived Query DEĞİL!
 }

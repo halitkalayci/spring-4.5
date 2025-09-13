@@ -9,12 +9,15 @@ import com.turkcell.intro.web.entity.Category;
 import com.turkcell.intro.web.entity.Product;
 import com.turkcell.intro.web.repository.CategoryRepository;
 import com.turkcell.intro.web.repository.ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
 @Service // IoC'e bean olarak ekle.
+@Validated // Bu nesnede validasyon yapılacaktır.
 public class ProductService
 {
     // final => yalnızca constructor üzerinden set edilebilir.
@@ -26,7 +29,7 @@ public class ProductService
         this.categoryService = categoryService;
     }
 
-    public CreatedProductResponse add(CreateProductRequest createProductRequest)
+    public CreatedProductResponse add(@Valid CreateProductRequest createProductRequest)
     {
         /// ....
         Product product = new Product();
@@ -66,7 +69,7 @@ public class ProductService
 
     public List<SearchProductResponse> search(SearchProductRequest request)
     {
-        List<Product> productList = productRepository.search("%"+request.getName()+"%");
+        List<Product> productList = productRepository.searchSql("%"+request.getName()+"%");
 
         List<SearchProductResponse> responseList = new ArrayList<>();
 
