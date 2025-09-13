@@ -28,7 +28,8 @@ public class ProductService
         this.productRepository = productRepository;
         this.categoryService = categoryService;
     }
-
+    // Servis-Servis çağrısı.
+    // Controller-Servis çağrısı.
     public CreatedProductResponse add(@Valid CreateProductRequest createProductRequest)
     {
         /// ....
@@ -87,3 +88,7 @@ public class ProductService
         return responseList;
     }
 }
+// 16:05
+
+// En az 2 entity için custom query yazılacak. (Plan sizde)
+// Her istekte requestleri validasyon kurallarıyla koruyalım.
