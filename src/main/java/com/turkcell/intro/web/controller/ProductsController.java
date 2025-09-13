@@ -1,8 +1,10 @@
 package com.turkcell.intro.web.controller;
 
 import com.turkcell.intro.web.dto.product.request.CreateProductRequest;
+import com.turkcell.intro.web.dto.product.request.SearchProductRequest;
 import com.turkcell.intro.web.dto.product.response.CreatedProductResponse;
 import com.turkcell.intro.web.dto.product.response.GetByIdProductResponse;
+import com.turkcell.intro.web.dto.product.response.SearchProductResponse;
 import com.turkcell.intro.web.entity.Product;
 import com.turkcell.intro.web.service.ProductService;
 import org.springframework.http.HttpStatus;
@@ -34,6 +36,11 @@ public class ProductsController
         return productService.getById(id);
     }
 
+    @GetMapping("search")
+    public List<SearchProductResponse> search(SearchProductRequest request)
+    {
+        return productService.search(request);
+    }
     // Listeleme
     // ID'e göre getirme
     // Silme
