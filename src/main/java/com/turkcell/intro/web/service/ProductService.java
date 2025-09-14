@@ -9,6 +9,7 @@ import com.turkcell.intro.web.entity.Category;
 import com.turkcell.intro.web.entity.Product;
 import com.turkcell.intro.web.repository.CategoryRepository;
 import com.turkcell.intro.web.repository.ProductRepository;
+import com.turkcell.intro.web.rules.ProductBusinessRules;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -20,29 +21,37 @@ import java.util.List;
 @Validated // Bu nesnede validasyon yapılacaktır.
 public class ProductService
 {
-    // final => yalnızca constructor üzerinden set edilebilir.
     private final ProductRepository productRepository;
+    private final ProductBusinessRules productBusinessRules;
     private final CategoryService categoryService;
-    // private final CategoryRepository categoryRepository; yanlış kullanım!
-    public ProductService(ProductRepository productRepository, CategoryService categoryService) {
+
+
+    public ProductService(ProductRepository productRepository, CategoryService categoryService,ProductBusinessRules productBusinessRules) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
+        this.productBusinessRules = productBusinessRules;
     }
-    // Servis-Servis çağrısı.
-    // Controller-Servis çağrısı.
+
+
     public CreatedProductResponse add(@Valid CreateProductRequest createProductRequest)
     {
-        /// ....
-        Product product = new Product();
+        // Aynı isimden bir ürün daha eklenmemeli.
+        // İlgili kategori id ile bir kategori bulunmadığında hata fırlat.
 
-        product.setName(createProductRequest.getName());
-        product.setUnitPrice(createProductRequest.getUnitPrice());
-        product.setStock(createProductRequest.getStock());
-        product.setDescription(createProductRequest.getDescription());
+        // İş kuralları en tepeye yazılır.
+        productBusinessRules.productMustNotExistWithSameName(createProductRequest.getName());
 
         Category category = categoryService
                 .findCategoryById(createProductRequest.getCategoryId())
                 .orElseThrow(() -> new NotFoundException("Bu id ile bir kategori bulunamadı."));
+
+        // Eğer kural sağlanmıyorsa işlem bitecek.
+
+        Product product = new Product();
+        product.setName(createProductRequest.getName());
+        product.setUnitPrice(createProductRequest.getUnitPrice());
+        product.setStock(createProductRequest.getStock());
+        product.setDescription(createProductRequest.getDescription());
         product.setCategory(category);
         product = productRepository.save(product);
 
@@ -53,6 +62,11 @@ public class ProductService
                 product.getDescription(),
                 product.getUnitPrice(),
                 category.getName());
+    }
+
+    public void update()
+    {
+        //productMustNotExistWithSameName(createProductRequest.getName());
     }
 
     public GetByIdProductResponse getById(int id)
@@ -88,7 +102,3 @@ public class ProductService
         return responseList;
     }
 }
-// 16:05
-
-// En az 2 entity için custom query yazılacak. (Plan sizde)
-// Her istekte requestleri validasyon kurallarıyla koruyalım.

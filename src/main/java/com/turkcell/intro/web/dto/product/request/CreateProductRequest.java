@@ -1,11 +1,9 @@
 package com.turkcell.intro.web.dto.product.request;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-// DTO
 public class CreateProductRequest
 {
     @NotBlank

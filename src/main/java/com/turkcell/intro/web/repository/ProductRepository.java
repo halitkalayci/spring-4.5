@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 // JpaRepository -> ORM Toolunun ilgili nesnenin (tablo) içerisinde işlem yapabilmesini sağlayan nesne.
 //@Repository
@@ -23,4 +24,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>
 
     @Query(value="Select * from products where LOWER(name) LIKE LOWER(:name)", nativeQuery = true) // NativeQuery  -> SAF SQL - JPA+SQL JPQL
     List<Product> searchSql(String name); // Derived Query DEĞİL!
+
+    // Optional -> Sonuç Bulunmayabilir?
+    Optional<Product> findTop1ByNameIgnoreCase(String name);
 }
