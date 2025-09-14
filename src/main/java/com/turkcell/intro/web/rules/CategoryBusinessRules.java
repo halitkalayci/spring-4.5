@@ -1,5 +1,6 @@
 package com.turkcell.intro.web.rules;
 
+import com.turkcell.intro.web.core.exception.type.BusinessException;
 import com.turkcell.intro.web.entity.Category;
 import com.turkcell.intro.web.repository.CategoryRepository;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,6 @@ public class CategoryBusinessRules
     public Category categoryShouldExistWithGivenId(int id) {
         return categoryRepository
                 .findById(id)
-                .orElseThrow(() -> new NotFoundException("Category with id " + id + " not found"));
+                .orElseThrow(() -> new BusinessException("Category with id " + id + " not found"));
     }
 }

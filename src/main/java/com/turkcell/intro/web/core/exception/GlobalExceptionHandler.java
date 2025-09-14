@@ -1,5 +1,6 @@
 package com.turkcell.intro.web.core.exception;
 
+import com.turkcell.intro.web.core.exception.type.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +15,14 @@ public class GlobalExceptionHandler
     public String handleValidationException()
     {
         return "Validation Error";
+    }
+
+    // Her ex. handler fırlayan ex'ı parametre olarak alır.
+    @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleBusinessException(BusinessException e)
+    {
+        return e.getMessage();
     }
 
     @ExceptionHandler(RuntimeException.class)

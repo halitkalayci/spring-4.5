@@ -1,5 +1,6 @@
 package com.turkcell.intro.web.rules;
 
+import com.turkcell.intro.web.core.exception.type.BusinessException;
 import com.turkcell.intro.web.entity.Product;
 import com.turkcell.intro.web.repository.ProductRepository;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class ProductBusinessRules
                 .orElse(null);
 
         if (productWithSameName != null)
-            throw new RuntimeException("Bu isim ile bir ürün zaten bulunmaktadır.");
+            throw new BusinessException("Bu isim ile bir ürün zaten bulunmaktadır.");
     }
 }
 
