@@ -1,5 +1,6 @@
 package com.turkcell.intro.web.service;
 
+import com.turkcell.intro.web.core.exception.type.BusinessException;
 import com.turkcell.intro.web.dto.product.request.CreateProductRequest;
 import com.turkcell.intro.web.dto.product.request.SearchProductRequest;
 import com.turkcell.intro.web.dto.product.response.CreatedProductResponse;
@@ -15,7 +16,6 @@ import com.turkcell.intro.web.rules.ProductBusinessRules;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class ProductService
 
     public GetByIdProductResponse getById(int id)
     {
-        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("Bu id ile bir ürün bulunamadı."));
+        Product product = productRepository.findById(id).orElseThrow(() -> new BusinessException("Bu id ile bir ürün bulunamadı."));
 
         return new GetByIdProductResponse(product.getId(),
                 product.getName(),

@@ -4,7 +4,6 @@ import com.turkcell.intro.web.core.exception.type.BusinessException;
 import com.turkcell.intro.web.entity.Category;
 import com.turkcell.intro.web.repository.CategoryRepository;
 import org.springframework.stereotype.Component;
-import org.webjars.NotFoundException;
 
 @Component
 public class CategoryBusinessRules
@@ -19,5 +18,12 @@ public class CategoryBusinessRules
         return categoryRepository
                 .findById(id)
                 .orElseThrow(() -> new BusinessException("Category with id " + id + " not found"));
+    }
+
+    public void categoryShouldNotExistWithSameName(String name) {
+        Category category = categoryRepository.findTop1ByNameIgnoreCase(name).orElse(null);
+        if (category != null) {
+            throw new BusinessException("Category with name " + name + " already exists");
+        }
     }
 }
