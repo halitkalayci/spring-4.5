@@ -23,3 +23,6 @@ public class ProductBusinessRules
             throw new RuntimeException("Bu isim ile bir ürün zaten bulunmaktadır.");
     }
 }
+
+// BuildingBlocks - Core -> Uygulamanın tamamında kullanılabilen atomik kodlar.
+// Core -> Proje bağımsızdır "framework" gibi düşün.
