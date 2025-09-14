@@ -16,5 +16,7 @@ public interface ProductMapper
     @Mapping(target="category.id", source="categoryId")
     Product createProductRequestToProduct(CreateProductRequest createProductRequest);
 
+    @Mapping(target = "categoryName", source = "category.name")
+    @Mapping(target = "categoryId", source = "category.id")
     CreatedProductResponse productToCreatedProductResponse(Product product);
 }

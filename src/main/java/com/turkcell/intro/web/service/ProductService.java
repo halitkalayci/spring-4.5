@@ -10,6 +10,7 @@ import com.turkcell.intro.web.entity.Product;
 import com.turkcell.intro.web.mapper.ProductMapper;
 import com.turkcell.intro.web.repository.CategoryRepository;
 import com.turkcell.intro.web.repository.ProductRepository;
+import com.turkcell.intro.web.rules.CategoryBusinessRules;
 import com.turkcell.intro.web.rules.ProductBusinessRules;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
@@ -25,26 +26,28 @@ public class ProductService
     private final ProductRepository productRepository;
     private final ProductBusinessRules productBusinessRules;
     private final CategoryService categoryService;
+    private final CategoryBusinessRules categoryBusinessRules;
+    private final ProductMapper productMapper;
 
-
-    public ProductService(ProductRepository productRepository, CategoryService categoryService,ProductBusinessRules productBusinessRules) {
+    public ProductService(ProductRepository productRepository,
+                          CategoryService categoryService,
+                          ProductBusinessRules productBusinessRules,
+                          CategoryBusinessRules categoryBusinessRules) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
         this.productBusinessRules = productBusinessRules;
+        this.categoryBusinessRules = categoryBusinessRules;
+        this.productMapper = ProductMapper.INSTANCE;
     }
 
     public CreatedProductResponse add(@Valid CreateProductRequest createProductRequest)
     {
         productBusinessRules.productMustNotExistWithSameName(createProductRequest.getName());
-        Category category = categoryService
-                .findCategoryById(createProductRequest.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("Bu id ile bir kategori bulunamadı."));
-
-
-        ProductMapper productMapper = ProductMapper.INSTANCE;
+        Category category = categoryBusinessRules.categoryShouldExistWithGivenId(createProductRequest.getCategoryId());
 
         Product product = productMapper.createProductRequestToProduct(createProductRequest);
         product = productRepository.save(product);
+
         return productMapper.productToCreatedProductResponse(product);
     }
 

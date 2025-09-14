@@ -9,14 +9,9 @@ public class CreatedProductResponse
     private String description;
     private float unitPrice;
     private String categoryName;
+    private int categoryId;
 
-    public String getCategoryName() {
-        return categoryName;
-    }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
 
     public CreatedProductResponse() {
     }
@@ -30,6 +25,21 @@ public class CreatedProductResponse
         this.categoryName = categoryName;
     }
 
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
     public int getId() {
         return id;
     }
