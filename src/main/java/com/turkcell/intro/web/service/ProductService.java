@@ -7,6 +7,7 @@ import com.turkcell.intro.web.dto.product.response.GetByIdProductResponse;
 import com.turkcell.intro.web.dto.product.response.SearchProductResponse;
 import com.turkcell.intro.web.entity.Category;
 import com.turkcell.intro.web.entity.Product;
+import com.turkcell.intro.web.mapper.ProductMapper;
 import com.turkcell.intro.web.repository.CategoryRepository;
 import com.turkcell.intro.web.repository.ProductRepository;
 import com.turkcell.intro.web.rules.ProductBusinessRules;
@@ -35,31 +36,16 @@ public class ProductService
     public CreatedProductResponse add(@Valid CreateProductRequest createProductRequest)
     {
         productBusinessRules.productMustNotExistWithSameName(createProductRequest.getName());
-
         Category category = categoryService
                 .findCategoryById(createProductRequest.getCategoryId())
                 .orElseThrow(() -> new NotFoundException("Bu id ile bir kategori bulunamadı."));
 
 
-        // Manual Mapping
-        Product product = new Product();
-        product.setName(createProductRequest.getName());
-        product.setUnitPrice(createProductRequest.getUnitPrice());
-        product.setStock(createProductRequest.getStock());
-        product.setDescription(createProductRequest.getDescription());
-        product.setCategory(category);
-        // Manual Mapping
+        ProductMapper productMapper = ProductMapper.INSTANCE;
 
-
+        Product product = productMapper.createProductRequestToProduct(createProductRequest);
         product = productRepository.save(product);
-        // Manual Mapping
-        return new CreatedProductResponse(product.getId(),
-                product.getName(),
-                product.getStock(),
-                product.getDescription(),
-                product.getUnitPrice(),
-                category.getName());
-        // Manual Mapping
+        return productMapper.productToCreatedProductResponse(product);
     }
 
     public void update()
