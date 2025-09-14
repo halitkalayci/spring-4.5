@@ -32,36 +32,34 @@ public class ProductService
         this.productBusinessRules = productBusinessRules;
     }
 
-
     public CreatedProductResponse add(@Valid CreateProductRequest createProductRequest)
     {
-        // Aynı isimden bir ürün daha eklenmemeli.
-        // İlgili kategori id ile bir kategori bulunmadığında hata fırlat.
-
-        // İş kuralları en tepeye yazılır.
         productBusinessRules.productMustNotExistWithSameName(createProductRequest.getName());
 
         Category category = categoryService
                 .findCategoryById(createProductRequest.getCategoryId())
                 .orElseThrow(() -> new NotFoundException("Bu id ile bir kategori bulunamadı."));
 
-        // Eğer kural sağlanmıyorsa işlem bitecek.
 
+        // Manual Mapping
         Product product = new Product();
         product.setName(createProductRequest.getName());
         product.setUnitPrice(createProductRequest.getUnitPrice());
         product.setStock(createProductRequest.getStock());
         product.setDescription(createProductRequest.getDescription());
         product.setCategory(category);
+        // Manual Mapping
+
+
         product = productRepository.save(product);
-
-
+        // Manual Mapping
         return new CreatedProductResponse(product.getId(),
                 product.getName(),
                 product.getStock(),
                 product.getDescription(),
                 product.getUnitPrice(),
                 category.getName());
+        // Manual Mapping
     }
 
     public void update()
