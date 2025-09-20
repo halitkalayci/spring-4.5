@@ -15,10 +15,16 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+    @Bean // Sadece var olmayan bean eklenmez, var olan override edilebilir.
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .authorizeHttpRequests(auth ->
+                        auth
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers("v3/api-docs/**").permitAll()
+                                .requestMatchers("/login/**").permitAll()
+                                .anyRequest().authenticated()
+                )
                 .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
