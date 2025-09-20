@@ -1,6 +1,8 @@
 package com.turkcell.intro.web.controller;
 
+import com.turkcell.intro.web.dto.user.request.LoginRequest;
 import com.turkcell.intro.web.dto.user.request.RegisterRequest;
+import com.turkcell.intro.web.dto.user.response.LoginResponse;
 import com.turkcell.intro.web.dto.user.response.RegisteredResponse;
 import com.turkcell.intro.web.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +20,13 @@ public class UsersController {
         this.userService = userService;
     }
 
-    @PostMapping
+    @PostMapping("register")
     public RegisteredResponse register(@RequestBody RegisterRequest request) {
         return userService.register(request);
+    }
+
+    @PostMapping("login")
+    public LoginResponse login(@RequestBody LoginRequest request) {
+        return userService.login(request);
     }
 }
