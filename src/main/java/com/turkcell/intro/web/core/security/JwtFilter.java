@@ -35,10 +35,9 @@ public class JwtFilter extends OncePerRequestFilter {
             // Kullanıcının giriş yaptığı bilgisini Spring Security'e vermem.
             String jwt = authorizationHeader.substring(7);
 
-            if(jwtUtil.validateToken(jwt)){
+            if(jwtUtil.validateToken(jwt)){ // Gerçekten ben mi ürettim, ben ürettiysem süresi hala geçerli mi?
                 // Boilerplate
-                List<String> roles = new ArrayList<>();
-                roles.add("ROLE_USER");
+                List<String> roles = jwtUtil.extractRoles(jwt);
 
                 List<SimpleGrantedAuthority> authorities = roles
                         .stream()
@@ -50,6 +49,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
+                // Spring Security'nin neresi olursa olsun "Auth" bilgilerini çekeceği class.
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 // Boilerplate
             }
