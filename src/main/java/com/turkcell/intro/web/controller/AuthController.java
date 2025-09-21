@@ -5,10 +5,7 @@ import com.turkcell.intro.web.dto.auth.request.RegisterRequest;
 import com.turkcell.intro.web.dto.auth.response.LoginResponse;
 import com.turkcell.intro.web.dto.auth.response.RegisteredResponse;
 import com.turkcell.intro.web.service.AuthService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1/auth")
 @RestController
@@ -28,5 +25,10 @@ public class AuthController {
     @PostMapping("login")
     public LoginResponse login(@RequestBody LoginRequest request) {
         return authService.login(request);
+    }
+
+    @GetMapping("verify-token")
+    public Boolean verifyToken(@RequestParam("token") String token) {
+        return authService.validateToken(token);
     }
 }

@@ -24,17 +24,18 @@ public class JwtUtil
         claims.put("username", username);
         claims.put("admin",true);
 
+        SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+
         String jwt = Jwts
                 .builder()
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(expirationDate)
                 .claims(claims)
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .signWith(key)
                 .compact();
         return jwt;
     }
-
 
     public Boolean validateToken(String token)
     {
@@ -47,6 +48,12 @@ public class JwtUtil
         {
             return false;
         }
+    }
+
+    public String extractUsername(String token)
+    {
+        Claims claims = extractAllClaims(token);
+        return claims.getSubject();
     }
 
     private Claims extractAllClaims(String token)

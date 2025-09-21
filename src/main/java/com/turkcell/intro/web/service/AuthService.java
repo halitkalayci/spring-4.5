@@ -52,4 +52,9 @@ public class AuthService {
         response.setToken(jwtUtil.generateToken(user.getUsername()));
         return response;
     }
+
+    public Boolean validateToken(String token)
+    {
+        return jwtUtil.validateToken(token);
+    }
 }
