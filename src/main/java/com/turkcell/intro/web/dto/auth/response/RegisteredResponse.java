@@ -1,4 +1,4 @@
-package com.turkcell.intro.web.dto.user.response;
+package com.turkcell.intro.web.dto.auth.response;
 
 public class RegisteredResponse
 {

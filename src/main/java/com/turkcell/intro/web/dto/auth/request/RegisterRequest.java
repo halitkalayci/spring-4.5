@@ -1,4 +1,4 @@
-package com.turkcell.intro.web.dto.user.request;
+package com.turkcell.intro.web.dto.auth.request;
 
 public class RegisterRequest
 {

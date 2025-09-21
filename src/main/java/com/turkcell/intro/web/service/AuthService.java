@@ -1,23 +1,26 @@
 package com.turkcell.intro.web.service;
 
 import com.turkcell.intro.web.core.exception.type.BusinessException;
-import com.turkcell.intro.web.dto.user.request.LoginRequest;
-import com.turkcell.intro.web.dto.user.request.RegisterRequest;
-import com.turkcell.intro.web.dto.user.response.LoginResponse;
-import com.turkcell.intro.web.dto.user.response.RegisteredResponse;
+import com.turkcell.intro.web.core.jwt.JwtUtil;
+import com.turkcell.intro.web.dto.auth.request.LoginRequest;
+import com.turkcell.intro.web.dto.auth.request.RegisterRequest;
+import com.turkcell.intro.web.dto.auth.response.LoginResponse;
+import com.turkcell.intro.web.dto.auth.response.RegisteredResponse;
 import com.turkcell.intro.web.entity.User;
 import com.turkcell.intro.web.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class AuthService {
     private final UserRepository  userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     public RegisteredResponse register(RegisterRequest request)
@@ -46,7 +49,7 @@ public class UserService {
             throw new BusinessException("Wrong username or password.");
 
         LoginResponse response = new LoginResponse();
-        response.setToken("abc123");
+        response.setToken(jwtUtil.generateToken(user.getUsername()));
         return response;
     }
 }
